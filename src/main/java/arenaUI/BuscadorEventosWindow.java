@@ -1,112 +1,60 @@
 package arenaUI;
 import applicationModel.BuscadorEventos;
-import eventos.AsistenciaEvento;
-import eventos.Evento;
 import org.uqbar.arena.bindings.DateTransformer;
-import org.uqbar.arena.bindings.NotNullObservable;
-import org.uqbar.arena.layout.ColumnLayout;
-import org.uqbar.arena.layout.HorizontalLayout;
+import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
-import org.uqbar.arena.windows.SimpleWindow;
-import org.uqbar.arena.windows.WindowOwner;
+import org.uqbar.arena.windows.MainWindow;
 import org.uqbar.arena.widgets.Button;
 
-import java.awt.*;
-
 @SuppressWarnings("serial")
-public class BuscadorEventosWindow extends SimpleWindow<BuscadorEventos> {
+public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
 
-    public BuscadorEventosWindow(WindowOwner parent) {
-        super(parent, new BuscadorEventos());
-        this.getModelObject().search();
+    public BuscadorEventosWindow() {
+        super(new BuscadorEventos());
+//        this.getModelObject().search();
     }
+    
+	@Override
+	public void createContents(Panel mainPanel) {
+		this.setTitle("Buscador de Eventos");
+		mainPanel.setLayout(new VerticalLayout());
 
-    @Override
-    protected void createMainTemplate(Panel mainPanel) {
-        this.setTitle("Buscador de Eventos");
-        this.setTaskDescription("Ingrese los parámetros de búsqueda");
+		
+		//TEXTOS PARA FECHA DESDE
+		new Label(mainPanel).setText("Ingrese fechaDesde:");
 
-        super.createMainTemplate(mainPanel);
+		new TextBox(mainPanel).bindValueToProperty("fechaDesde").setTransformer(new DateTransformer()); //setTransformer para evitar problemas de tipo con LocalDateTime
+		
+		//TEXTOS PARA FECHA HASTA
+		new Label(mainPanel).setText("Ingrese fechaHasta:");
 
-        this.createResultsGrid(mainPanel);
-        this.createGridActions(mainPanel);
-    }
+		new TextBox(mainPanel).bindValueToProperty("fechaHasta").setTransformer(new DateTransformer());
 
-    @Override
-    protected void createFormPanel(Panel mainPanel) { //Panel que permite filtrar resultados entre dos fechas
-        Panel searchFormPanel = new Panel(mainPanel);
-        searchFormPanel.setLayout(new ColumnLayout(2));
+		//BOTONES BUSCAR Y LIMPIAR
+		new Button(mainPanel)
+			.setCaption("Buscar")
+			.onClick(()-> this.getModelObject().search());
+		
+		new Button(mainPanel)
+			.setCaption("Limpiar")
+			.onClick(()-> this.getModelObject().clear());
 
-        new Label(searchFormPanel).setText("Desde").setForeground(Color.BLUE);
-        new TextBox(searchFormPanel).setWidth(150).bindValueToProperty("fechaDesde").setTransformer(new DateTransformer());
+		//RESULTADOS DE BUSQUEDA
+		Table<BuscadorEventos> tablaEventos = new Table<BuscadorEventos>(mainPanel, BuscadorEventos.class);
+		tablaEventos.bindItemsToProperty("resultados");
+		
+		new Column<BuscadorEventos>(tablaEventos)
+	    	.setTitle("Nombre")
+	    	.setFixedSize(150)
+	    	.bindContentsToProperty("nombre");
+		
+	}
 
-        new Label(searchFormPanel).setText("Hasta").setForeground(Color.BLUE);
-        new TextBox(searchFormPanel).setWidth(150).bindValueToProperty("fechaHasta").setTransformer(new DateTransformer());
-    }
-
-    @Override
-    protected void addActions(Panel actionsPanel) { //Acciones de la pantalla principal. Nosotros solo tenemos que buscar, no crear ni borrar
-        new Button(actionsPanel)
-                .setCaption("Buscar")
-                .onClick(getModelObject()::search)
-                .setAsDefault()
-                .disableOnError();
-
-        new Button(actionsPanel) //
-                .setCaption("Limpiar")
-                .onClick(getModelObject()::clear);
-
-    }
-
-    //Resultados de la búsqueda
-
-    protected void createResultsGrid(Panel mainPanel) {
-        Table<AsistenciaEvento> table = new Table<AsistenciaEvento>(mainPanel, AsistenciaEvento.class);
-        table.setNumberVisibleRows(10);
-        table.setWidth(450);
-
-        table.bindItemsToProperty("resultados");
-
-        this.describeResultsGrid(table);
-    }
-
-    //Define las columnas de la busqueda. Bindeo cada columna contra una propiedad del model (Buscador eventos), no de una AsistenciaEvento, por ende no sé que tan correcto es esto
-
-    protected void describeResultsGrid(Table<AsistenciaEvento> table) {
-        new Column<AsistenciaEvento>(table) //
-                .setTitle("Nombre")
-                .setFixedSize(100)
-                .bindContentsToProperty("nombre");
-
-        new Column<AsistenciaEvento>(table) //
-                .setTitle("Fecha")
-                .setFixedSize(100)
-                .alignRight()
-                .bindContentsToProperty("fecha");
-
-        new Column<AsistenciaEvento>(table) //
-                .setTitle("Lugar")
-                .setFixedSize(100)
-                .alignRight()
-                .bindContentsToProperty("lugar");
-
-
-        Column<AsistenciaEvento> sugerenciasColumn = new Column<AsistenciaEvento>(table);
-        sugerenciasColumn.setTitle("Sugerencias");
-        sugerenciasColumn.setFixedSize(50);
-        sugerenciasColumn.bindContentsToProperty("tieneSugerencias").setTransformer(new BooleanTransformer());
-    }
-
-    protected void createGridActions(Panel mainPanel) {
-        Panel actionsPanel = new Panel(mainPanel);
-        actionsPanel.setLayout(new HorizontalLayout());
-
-    }
-
-
-
+	public static void main(String[] args) {
+		new BuscadorEventosWindow().startApplication();
+	}
 }

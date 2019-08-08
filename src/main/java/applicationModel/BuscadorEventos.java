@@ -31,9 +31,8 @@ public class BuscadorEventos {
 
     Usuario usuario = new Usuario();
 
-    //Acciones
-
-
+    
+    //ACCIONES
     public void search() {
         this.resultados = getEventosEntre(fechaDesde, fechaHasta);
     }
@@ -50,14 +49,15 @@ public class BuscadorEventos {
         this.resultados = new ArrayList<>();
     }
 
-    //Accesors. Creo que los setters los uso en caso de crear un evento nuevo. Pero nosotros solo tenemos que listarlos.
-
+    //ACCESORS
+    //Creo que los setters los uso en caso de crear un evento nuevo. Pero nosotros solo tenemos que listarlos.
+    
     public LocalDateTime getFechaInicio() {
         return fechaDesde;
     }
 
     public void setFechaInicio(LocalDateTime fechaInicio) {
-        this.fechaHasta = fechaInicio;
+        this.fechaDesde = fechaInicio;
     }
 
     public LocalDateTime getFechaFin() {
@@ -75,8 +75,5 @@ public class BuscadorEventos {
     public void setResultados(List<AsistenciaEvento> resultados) {
         this.resultados = resultados;
     }
-
-
-
 
 }
