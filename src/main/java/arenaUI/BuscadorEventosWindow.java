@@ -27,12 +27,12 @@ public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
 		//TEXTOS PARA FECHA DESDE
 		new Label(mainPanel).setText("Ingrese fechaDesde:");
 
-		new TextBox(mainPanel).bindValueToProperty("fechaDesde").setTransformer(new DateTransformer()); //setTransformer para evitar problemas de tipo con LocalDateTime
+		new TextBox(mainPanel).bindValueToProperty("fechaDesde");//.setTransformer(new DateTransformer()); //setTransformer para evitar problemas de tipo con LocalDateTime
 		
 		//TEXTOS PARA FECHA HASTA
 		new Label(mainPanel).setText("Ingrese fechaHasta:");
 
-		new TextBox(mainPanel).bindValueToProperty("fechaHasta").setTransformer(new DateTransformer());
+		new TextBox(mainPanel).bindValueToProperty("fechaHasta");//.setTransformer(new DateTransformer());
 
 		//BOTONES BUSCAR Y LIMPIAR
 		new Button(mainPanel)

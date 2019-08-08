@@ -52,19 +52,19 @@ public class BuscadorEventos {
     //ACCESORS
     //Creo que los setters los uso en caso de crear un evento nuevo. Pero nosotros solo tenemos que listarlos.
     
-    public LocalDateTime getFechaInicio() {
+    public LocalDateTime getFechaDesde() {
         return fechaDesde;
     }
 
-    public void setFechaInicio(LocalDateTime fechaInicio) {
+    public void setFechaDesde(LocalDateTime fechaInicio) {
         this.fechaDesde = fechaInicio;
     }
 
-    public LocalDateTime getFechaFin() {
+    public LocalDateTime getFechaHasta() {
         return fechaHasta;
     }
 
-    public void setFechaFin(LocalDateTime fechaFin) {
+    public void setFechaHasta(LocalDateTime fechaFin) {
         this.fechaHasta = fechaFin;
     }
 
@@ -75,5 +75,13 @@ public class BuscadorEventos {
     public void setResultados(List<AsistenciaEvento> resultados) {
         this.resultados = resultados;
     }
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
 }
