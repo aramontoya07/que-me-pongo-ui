@@ -84,4 +84,27 @@ public class BuscadorEventos {
 		this.nombre = nombre;
 	}
 
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
+    public boolean getTieneSugerencia() {
+        return tieneSugerencia;
+    }
+
+    public void setTieneSugerencia(boolean tieneSugerencia) {
+        this.tieneSugerencia = tieneSugerencia;
+    }
 }
