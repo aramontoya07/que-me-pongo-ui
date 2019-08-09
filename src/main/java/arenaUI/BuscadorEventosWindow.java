@@ -1,6 +1,9 @@
 package arenaUI;
 import applicationModel.BuscadorEventos;
 
+import eventos.AsistenciaEvento;
+import eventos.Evento;
+import eventos.Unico;
 import org.uqbar.arena.bindings.DateTransformer;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Label;
@@ -10,6 +13,9 @@ import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.MainWindow;
 import org.uqbar.arena.widgets.Button;
+import usuario.Usuario;
+
+import java.time.LocalDateTime;
 
 @SuppressWarnings("serial")
 public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
@@ -45,25 +51,25 @@ public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
 			.onClick(()-> this.getModelObject().clear());
 
 		//RESULTADOS DE BUSQUEDA
-		Table<BuscadorEventos> tablaEventos = new Table<BuscadorEventos>(mainPanel, BuscadorEventos.class);
+		Table<AsistenciaEvento> tablaEventos = new Table<AsistenciaEvento>(mainPanel, AsistenciaEvento.class);
 		tablaEventos.bindItemsToProperty("resultados");
 		
-		new Column<BuscadorEventos>(tablaEventos)
+		new Column<AsistenciaEvento>(tablaEventos)
 	    	.setTitle("Nombre")
 	    	.setFixedSize(150)
 	    	.bindContentsToProperty("nombre");
 
-		new Column<BuscadorEventos>(tablaEventos)
+		new Column<AsistenciaEvento>(tablaEventos)
 			.setTitle("Fecha")
 			.setFixedSize(150)
 			.bindContentsToProperty("fecha");
 
-		new Column<BuscadorEventos>(tablaEventos)
+		new Column<AsistenciaEvento>(tablaEventos)
 			.setTitle("Lugar")
 			.setFixedSize(150)
 			.bindContentsToProperty("lugar");
 
-		new Column<BuscadorEventos>(tablaEventos)
+		new Column<AsistenciaEvento>(tablaEventos)
 			.setTitle("Tiene Sugerencia")
 			.setFixedSize(150)
 			.bindContentsToProperty("tieneSugerencia");
@@ -71,6 +77,7 @@ public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
 	}
 
 	public static void main(String[] args) {
+  //inicializar un usuario y evento o sugerencia evento para probar.
 		new BuscadorEventosWindow().startApplication();
 	}
 }
