@@ -2,7 +2,9 @@ package applicationModel;
 
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,8 +20,8 @@ import usuario.Usuario;
 
 @Observable
 public class BuscadorEventos {
-    private LocalDateTime fechaDesde;
-    private LocalDateTime fechaHasta;
+    private Date fechaDesde; // Si queremos que sea LocalDateTime tenemos que convertirlo
+    private Date fechaHasta;
     private List<AsistenciaEvento> resultados;
     private String nombre;
     private String lugar;
@@ -33,14 +35,21 @@ public class BuscadorEventos {
 
     
     //ACCIONES
+    public LocalDateTime convertirALocalDateTime (Date fecha) {
+    	LocalDateTime miFecha = LocalDateTime.ofInstant(fecha.toInstant(), ZoneId.systemDefault());
+    	return miFecha;
+    }
+    
     public void search() {
         this.resultados = getEventosEntre(fechaDesde, fechaHasta);
     }
 
-    public List<AsistenciaEvento> getEventosEntre(LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
-       Set<AsistenciaEvento> setEventos = usuario.getCalendarioEventos().obtenerEventosEntre(fechaDesde, fechaHasta);
-       List<AsistenciaEvento> resultados = new ArrayList<>(setEventos);
-       return resultados; //Tenemos un set y aparentemente pra usar una tabla necesito una List
+    public List<AsistenciaEvento> getEventosEntre(Date fechaDesde, Date fechaHasta) {
+    	LocalDateTime fechaInicio = convertirALocalDateTime(fechaDesde);
+    	LocalDateTime fechaFin = convertirALocalDateTime(fechaHasta);
+    	Set<AsistenciaEvento> setEventos = usuario.getCalendarioEventos().obtenerEventosEntre(fechaInicio, fechaFin);
+    	List<AsistenciaEvento> resultados = new ArrayList<>(setEventos);
+    	return resultados; //Tenemos un set y aparentemente pra usar una tabla necesito una List
     }
 
     public void clear() {
@@ -52,19 +61,19 @@ public class BuscadorEventos {
     //ACCESORS
     //Creo que los setters los uso en caso de crear un evento nuevo. Pero nosotros solo tenemos que listarlos.
     
-    public LocalDateTime getFechaDesde() {
+    public Date getFechaDesde() {
         return fechaDesde;
     }
 
-    public void setFechaDesde(LocalDateTime fechaInicio) {
+    public void setFechaDesde(Date fechaInicio) {
         this.fechaDesde = fechaInicio;
     }
 
-    public LocalDateTime getFechaHasta() {
+    public Date getFechaHasta() {
         return fechaHasta;
     }
 
-    public void setFechaHasta(LocalDateTime fechaFin) {
+    public void setFechaHasta(Date fechaFin) {
         this.fechaHasta = fechaFin;
     }
 
