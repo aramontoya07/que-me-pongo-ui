@@ -1,5 +1,7 @@
 package arenaUI;
 import applicationModel.BuscadorEventos;
+
+import org.uqbar.arena.bindings.DateTransformer;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
