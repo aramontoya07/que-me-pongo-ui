@@ -28,8 +28,6 @@ public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
 		mainPanel.setLayout(new VerticalLayout());
 
 
-
-
 		//TEXTOS PARA FECHA DESDE
 		new Label(mainPanel).setText("Ingrese fecha de inicio (DD/MM/AAAA):");
 
@@ -51,14 +49,6 @@ public class BuscadorEventosWindow extends MainWindow<BuscadorEventos> {
 		new Button(botonesPanel)
 				.setCaption("Limpiar")
 				.onClick(()-> this.getModelObject().clear());
-
-		new Button(botonesPanel)
-				.setCaption("Agregar Evento")
-				.onClick(()-> System.out.println("gg"));
-
-		new Button(botonesPanel)
-				.setCaption("Eliminar Evento")
-				.onClick(()->System.out.println("gato"));
 
 		//RESULTADOS DE BUSQUEDA
 		Table<BuscadorEventos> tablaEventos = new Table<BuscadorEventos>(mainPanel, BuscadorEventos.class);
